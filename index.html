@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'" />
+    <meta
+      name="description"
+      content="Grimoire communautaire de scripts et guides pour Guerre Tribale."
+    />
+    <title>Le Grimoire GT — Scripts & guides</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="page-shell">
+      <aside class="sidebar" id="sidebar">
+        <button class="menu-close" id="menuClose" type="button" aria-label="Fermer le menu">×</button>
+        <a class="brand" href="#accueil" aria-label="Retour à l'accueil">
+          <span class="brand-mark">GT</span>
+          <span><strong>Le Grimoire</strong><small>Scripts & stratégies</small></span>
+        </a>
+
+        <nav aria-label="Navigation principale">
+          <p class="nav-label">Commencer</p>
+          <a class="nav-link active" href="#accueil"><span>⌂</span> Accueil</a>
+          <a class="nav-link" href="#installation"><span>⚒</span> Installer un script</a>
+          <a class="nav-link" href="tutoriels/index.html"><span>▤</span> Tutoriels</a>
+
+          <p class="nav-label">Bibliothèque</p>
+          <div id="scriptNav"></div>
+        </nav>
+
+        <div class="sidebar-note">
+          <span class="status-dot"></span>
+          <div><strong>Édition communautaire</strong><small id="sidebarCount">Chargement…</small></div>
+        </div>
+        <p class="powered-by">Powered by <strong>DEADLY/NOPNUT</strong></p>
+      </aside>
+      <button class="menu-overlay" id="menuOverlay" type="button" aria-label="Fermer le menu"></button>
+
+      <main>
+        <header class="topbar">
+          <button class="menu-button" id="menuButton" aria-label="Ouvrir le menu" aria-expanded="false">☰</button>
+          <a class="mobile-logo" href="#accueil" aria-label="Le Grimoire GT — Accueil"><span>GT</span></a>
+          <div class="search-wrap">
+            <span>⌕</span>
+            <input id="searchInput" type="search" placeholder="Rechercher un script…" aria-label="Rechercher" />
+            <kbd>Ctrl K</kbd>
+          </div>
+          <a class="top-link" href="#securite">Sécurité</a>
+        </header>
+
+        <div class="content">
+          <section class="hero" id="accueil">
+            <div class="hero-copy">
+              <span class="eyebrow">Archives de Guerre Tribale</span>
+              <h1>Les bons outils pour<br /><em>diriger ton royaume.</em></h1>
+              <p>
+                Une bibliothèque française, simple et documentée, pour retrouver les scripts utiles,
+                comprendre leur fonctionnement et les installer sans se perdre.
+              </p>
+              <div class="hero-actions">
+                <a class="button button-primary" href="#bibliotheque">Explorer les scripts <span>→</span></a>
+                <a class="button button-ghost" href="#installation">Guide d’installation</a>
+              </div>
+            </div>
+            <div class="crest" aria-hidden="true">
+              <div class="crest-crown">♛</div>
+              <div class="crest-shield"><span>G</span><span>T</span></div>
+              <p>Force · Honneur · Tribu</p>
+            </div>
+          </section>
+
+          <section class="stats" aria-label="Statistiques du grimoire">
+            <div><strong id="scriptCount">—</strong><span>Scripts documentés</span></div>
+            <div><strong>100%</strong><span>Guides en français</span></div>
+            <div><strong id="categoryCount">—</strong><span>Catégories disponibles</span></div>
+          </section>
+
+          <section class="section" id="bibliotheque">
+            <div class="section-heading">
+              <div><span class="eyebrow">Bibliothèque</span><h2>Premiers scripts référencés</h2></div>
+              <span class="result-count" id="resultCount">Chargement…</span>
+            </div>
+
+            <div class="category-filters" id="categoryFilters" aria-label="Filtrer par catégorie"></div>
+            <div class="script-grid" id="scriptGrid" aria-live="polite"></div>
+            <p class="empty-state" id="emptyState" hidden>Aucun script ne correspond à cette recherche.</p>
+          </section>
+
+          <section class="section guide-section" id="installation">
+            <div class="section-heading"><div><span class="eyebrow">Mini tutoriel</span><h2>Installer un script dans Guerre Tribale</h2></div></div>
+            <ol class="steps">
+              <li><span>1</span><div><strong>Ouvre la barre de raccourcis</strong><p>Dans Guerre Tribale, ouvre « Réglages », puis sélectionne « Barre de raccourcis » dans le menu de gauche.</p></div></li>
+              <li><span>2</span><div><strong>Ajoute une nouvelle entrée</strong><p>Dans la section « Modifier », clique sur « Ajouter une nouvelle entrée » pour afficher le formulaire d’ajout.</p></div></li>
+              <li><span>3</span><div><strong>Renseigne le script</strong><p>Choisis un nom reconnaissable, puis colle l’intégralité du code <code>javascript:…</code> de la fiche dans le champ prévu pour le lien ou la cible.</p></div></li>
+              <li><span>4</span><div><strong>Enregistre et vérifie</strong><p>Valide la nouvelle entrée. Elle apparaît dans ta barre de raccourcis ; ouvre ensuite l’écran adapté avant de l’utiliser et vérifie toutes les valeurs.</p></div></li>
+            </ol>
+            <div class="doc-warning installation-note"><strong>Méthode officielle recommandée :</strong> vérifie d’abord si le script est disponible dans « Réglages → Bibliothèque de scripts ». Pour une entrée externe, utilise uniquement un script préalablement approuvé pour ton marché et ton monde pendant la période de transition.</div>
+          </section>
+
+          <section class="section tutorials-section" id="tutoriels">
+            <div class="section-heading">
+              <div><span class="eyebrow">Académie</span><h2>Tutoriels Guerre Tribale</h2></div>
+              <span class="badge badge-gold">Bientôt disponible</span>
+            </div>
+            <div class="unavailable-card">
+              <span class="unavailable-icon">⚔</span>
+              <div>
+                <h3>Les premiers tutoriels sont en préparation</h3>
+                <p>Cette section accueillera prochainement des guides sur les bases du jeu, le développement des villages, le farming, la défense, les timings et la coordination en tribu.</p>
+              </div>
+              <span class="unavailable-status">Indisponible pour le moment</span>
+            </div>
+          </section>
+
+          <section class="section detail-section">
+            <div class="section-heading"><div><span class="eyebrow">Fiches pratiques</span><h2>Codes et modes d’emploi</h2></div></div>
+
+            <div id="scriptDetails"></div>
+          </section>
+
+          <section class="warning" id="securite">
+            <span>!</span>
+            <div><strong>Avant d’utiliser un script externe</strong><p>Ces bookmarklets téléchargent du JavaScript depuis des sites tiers. Le contenu distant peut être modifié après publication. Lis le code source, n’exécute jamais un script qui demande ton mot de passe et vérifie les règles de ton serveur. Ce grimoire documente les liens de la capture, sans garantir leur sécurité ni leur conformité.</p></div>
+          </section>
+
+          <footer><span>Le Grimoire GT · Projet communautaire non officiel</span><span>Powered by <strong>DEADLY/NOPNUT</strong></span><span>Guerre Tribale est une marque de ses propriétaires respectifs.</span></footer>
+        </div>
+      </main>
+    </div>
+
+    <div class="toast" id="toast" role="status" aria-live="polite">Code copié dans le presse-papiers.</div>
+    <script src="data/scripts-data.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>
