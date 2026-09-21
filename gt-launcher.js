@@ -97,6 +97,16 @@
   // L'ajout d'une entree se fait dans le formulaire officiel du jeu : le
   // lanceur prepare le code et ouvre la page, l'utilisateur valide lui-meme.
   // On ne remplit ni ne soumet le formulaire de reglages a sa place.
+  // Le champ « Nom de l'entree » est limite a 32 caracteres par le jeu : on
+  // tronque nous-memes pour que le libelle reste lisible et previsible.
+  const QUICKBAR_NAME_MAX = 32;
+  function quickbarLabel(script) {
+    const label = `GT · ${script.title}`;
+    return label.length <= QUICKBAR_NAME_MAX
+      ? label
+      : `${label.slice(0, QUICKBAR_NAME_MAX - 1).trimEnd()}…`;
+  }
+
   async function installToQuickbar(script, statusLine) {
     const bookmarklet = bookmarkletFrom(script);
     if (!bookmarklet) {
@@ -105,10 +115,10 @@
     }
 
     const copied = await copyToClipboard(bookmarklet);
-    const label = `Grimoire · ${script.title}`;
+    const label = quickbarLabel(script);
 
     statusLine.textContent = copied
-      ? `Code de ${script.title} copié. Dans l'onglet qui s'ouvre : nom « ${label} », colle le code dans « URL cible », puis Sauvegarder.`
+      ? `Code copié. Dans l'onglet ouvert : « Nom de l'entrée » = ${label}, colle le code dans « URL cible », puis Sauvegarder.`
       : `Copie automatique refusée : copie le code affiché ci-dessous pour ${script.title}.`;
 
     if (!copied) {
