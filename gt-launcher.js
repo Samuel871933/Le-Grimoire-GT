@@ -64,13 +64,15 @@
     document.querySelector('#grimoire-gt-launcher')?.remove();
   }
 
-  function quickbarUrl() {
+  // mode=quickbar affiche la liste des entrees ; le formulaire d'ajout vit sur
+  // mode=quickbar_edit. C'est cette page que l'on ouvre pour l'utilisateur.
+  function quickbarUrl(mode = 'quickbar_edit') {
     const url = new URL('/game.php', window.location.origin);
     const params = new URLSearchParams(window.location.search);
     const village = params.get('village');
     if (village) url.searchParams.set('village', village);
     url.searchParams.set('screen', 'settings');
-    url.searchParams.set('mode', 'quickbar');
+    url.searchParams.set('mode', mode);
     return url.href;
   }
 
@@ -106,8 +108,8 @@
     const label = `Grimoire · ${script.title}`;
 
     statusLine.textContent = copied
-      ? `Code de ${script.title} copie. Colle-le dans « URL cible », nomme l'entree « ${label} », puis Sauvegarder.`
-      : `Copie automatique refusee : copie le code affiche ci-dessous pour ${script.title}.`;
+      ? `Code de ${script.title} copié. Dans l'onglet qui s'ouvre : nom « ${label} », colle le code dans « URL cible », puis Sauvegarder.`
+      : `Copie automatique refusée : copie le code affiché ci-dessous pour ${script.title}.`;
 
     if (!copied) {
       const area = document.createElement('textarea');

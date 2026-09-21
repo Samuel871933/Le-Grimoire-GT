@@ -43,7 +43,7 @@
         "Fenêtre de départ et d’arrivée"
       ],
       "tutorial": "Depuis la place de rassemblement ou l’aperçu des troupes, ouvre le favori. Commence par Calculate pour charger les défenses disponibles, ajuste la ligne send, choisis les dates puis utilise Fill inputs.",
-      "code": "javascript:var heavyCav=6;$.getScript('https://dl.dropboxusercontent.com/s/idwa7mmpn6nx13l/supportSender.js?dl=0');void 0;",
+      "code": "javascript:varheavyCav=6;$.getScript('https://dl.dropboxusercontent.com/s/idwa7mmpn6nxl3l/supportSender.js?dl=0');void 0;",
       "source": "Capture fournie",
       "author": "Cosacche",
       "keywords": [
