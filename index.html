@@ -30,6 +30,7 @@
           <p class="nav-label">Commencer</p>
           <a class="nav-link active" href="#accueil"><span>⌂</span> Accueil</a>
           <a class="nav-link" href="#installation"><span>⚒</span> Installer un script</a>
+          <a class="nav-link" href="#lanceur"><span>✦</span> Lanceur GT</a>
           <a class="nav-link" href="tutoriels/index.html"><span>▤</span> Tutoriels</a>
 
           <p class="nav-label">Bibliothèque</p>
@@ -103,6 +104,30 @@
               <li><span>4</span><div><strong>Enregistre et vérifie</strong><p>Valide la nouvelle entrée. Elle apparaît dans ta barre de raccourcis ; ouvre ensuite l’écran adapté avant de l’utiliser et vérifie toutes les valeurs.</p></div></li>
             </ol>
             <div class="doc-warning installation-note"><strong>Méthode officielle recommandée :</strong> vérifie d’abord si le script est disponible dans « Réglages → Bibliothèque de scripts ». Pour une entrée externe, utilise uniquement un script préalablement approuvé pour ton marché et ton monde pendant la période de transition.</div>
+          </section>
+
+          <section class="section launcher-section" id="lanceur">
+            <div class="section-heading">
+              <div><span class="eyebrow">Installation simplifiée</span><h2>Un seul raccourci pour le Grimoire</h2></div>
+              <span class="badge badge-green">Automatique</span>
+            </div>
+            <div class="launcher-card">
+              <div class="launcher-copy">
+                <span class="script-icon">✦</span>
+                <div><h3>Lanceur Grimoire GT</h3><p>Ajoute une seule entrée dans la barre de raccourcis. Le lanceur récupère ensuite automatiquement la bibliothèque publiée sur ce site et te laisse choisir l’outil à ouvrir.</p></div>
+              </div>
+              <ol class="launcher-steps">
+                <li>Déploie ou ouvre cette page depuis son adresse HTTPS définitive.</li>
+                <li>Clique sur « Copier le lanceur ».</li>
+                <li>Dans GT : Réglages → Barre de raccourcis → Ajouter une nouvelle entrée.</li>
+                <li>Nom : « Grimoire GT » · Lien : colle le code copié, puis enregistre.</li>
+              </ol>
+              <div class="launcher-action">
+                <code id="launcherPreview">Le lien sera généré automatiquement depuis l’adresse du site.</code>
+                <button class="button button-primary" id="copyLauncher" type="button">Copier le lanceur</button>
+              </div>
+              <p class="launcher-status" id="launcherStatus" role="status" aria-live="polite"></p>
+            </div>
           </section>
 
           <section class="section tutorials-section" id="tutoriels">

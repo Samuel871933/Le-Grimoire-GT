@@ -13,6 +13,9 @@ const categoryCount = document.querySelector('#categoryCount');
 const sidebarCount = document.querySelector('#sidebarCount');
 const menuClose = document.querySelector('#menuClose');
 const menuOverlay = document.querySelector('#menuOverlay');
+const copyLauncher = document.querySelector('#copyLauncher');
+const launcherPreview = document.querySelector('#launcherPreview');
+const launcherStatus = document.querySelector('#launcherStatus');
 
 let scripts = [];
 let categories = [];
@@ -158,6 +161,31 @@ function setMenuOpen(isOpen) {
   menuButton.setAttribute('aria-label', isOpen ? 'Fermer le menu' : 'Ouvrir le menu');
 }
 
+function buildLauncherBookmarklet() {
+  const baseUrl = new URL('.', window.location.href).href;
+  const launcherUrl = new URL('gt-launcher.js', baseUrl).href;
+  return `javascript:(()=>{window.GRIMOIRE_BASE=${JSON.stringify(baseUrl)};$.getScript(${JSON.stringify(launcherUrl)});})();void 0;`;
+}
+
+async function copyLauncherCode() {
+  if (window.location.protocol !== 'https:') {
+    launcherStatus.textContent = 'Déploie d’abord le Grimoire sur son adresse HTTPS définitive pour générer un lanceur utilisable dans GT.';
+    return;
+  }
+  const bookmarklet = buildLauncherBookmarklet();
+  try {
+    await navigator.clipboard.writeText(bookmarklet);
+    launcherStatus.textContent = 'Lanceur copié. Colle-le maintenant dans une nouvelle entrée de la barre GT.';
+  } catch {
+    launcherPreview.textContent = bookmarklet;
+    const range = document.createRange();
+    range.selectNodeContents(launcherPreview);
+    window.getSelection().removeAllRanges();
+    window.getSelection().addRange(range);
+    launcherStatus.textContent = 'Le code est sélectionné : utilise Ctrl+C.';
+  }
+}
+
 async function loadLibrary() {
   try {
     let data;
@@ -211,6 +239,12 @@ menuButton.addEventListener('click', () => {
 });
 menuClose.addEventListener('click', () => setMenuOpen(false));
 menuOverlay.addEventListener('click', () => setMenuOpen(false));
+if (copyLauncher) {
+  launcherPreview.textContent = window.location.protocol === 'https:'
+    ? buildLauncherBookmarklet()
+    : 'Disponible automatiquement après déploiement HTTPS du Grimoire.';
+  copyLauncher.addEventListener('click', copyLauncherCode);
+}
 document.addEventListener('keydown', (event) => {
   if (event.key === 'Escape' && sidebar.classList.contains('open')) setMenuOpen(false);
 });

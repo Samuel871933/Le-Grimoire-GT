@@ -28,6 +28,7 @@
       <p class="nav-label">Commencer</p>
       <a class="nav-link" href="${root}index.html"><span>⌂</span> Accueil</a>
       <a class="nav-link" href="${root}index.html#installation"><span>⚒</span> Installer un script</a>
+      <a class="nav-link" href="${root}index.html#lanceur"><span>✦</span> Lanceur GT</a>
       <a class="nav-link${isTutorials ? ' active' : ''}" href="${root}tutoriels/index.html"><span>▤</span> Tutoriels</a>
       <p class="nav-label">Bibliothèque</p>
       ${scriptLinks}

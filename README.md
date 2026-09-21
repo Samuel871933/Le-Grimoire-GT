@@ -22,6 +22,7 @@ Puis ouvrez <http://localhost:8000>.
 - `scripts/*.html` : une page statique dédiée par script
 - `script-page.js` : rendu partagé des fiches depuis les données
 - `site-sidebar.js` : menu partagé et identique sur toutes les pages internes
+- `gt-launcher.js` : lanceur unique à utiliser depuis la barre de raccourcis GT
 - `tutoriels/index.html` : page d’entrée des futurs tutoriels
 
 ## Ajouter un script

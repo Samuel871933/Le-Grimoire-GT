@@ -108,6 +108,16 @@ h1 em { color: var(--red); font-style: normal; }
 .steps strong { font-family: "Cinzel"; font-size: 14px; }
 .steps p { margin: 7px 0 0; color: var(--muted); font-size: 12px; line-height: 1.6; }
 .installation-note { margin-top: 18px; }
+.launcher-section { scroll-margin-top: 65px; }
+.launcher-card { padding: 28px; background: #fbf7ef; border: 1px solid var(--line); box-shadow: var(--shadow); }
+.launcher-copy { display: flex; align-items: center; gap: 17px; }
+.launcher-copy h3 { margin: 0 0 7px; font-size: 19px; }
+.launcher-copy p { max-width: 750px; margin: 0; color: var(--muted); font-size: 13px; line-height: 1.65; }
+.launcher-steps { margin: 25px 0; padding-left: 22px; color: var(--muted); font-size: 12px; line-height: 1.8; }
+.launcher-action { display: flex; align-items: center; gap: 12px; padding: 13px; background: #251f1b; border-left: 3px solid var(--gold); }
+.launcher-action code { min-width: 0; flex: 1; overflow: hidden; color: #cdbfae; font: 11px ui-monospace, monospace; text-overflow: ellipsis; white-space: nowrap; }
+.launcher-action .button { flex: 0 0 auto; cursor: pointer; }
+.launcher-status { min-height: 18px; margin: 10px 0 0; color: var(--green); font-size: 11px; }
 .tutorials-section { scroll-margin-top: 65px; }
 .unavailable-card { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 22px; padding: 30px; color: #6d6258; background: repeating-linear-gradient(135deg, #f3ede3, #f3ede3 12px, #efe7db 12px, #efe7db 24px); border: 1px dashed #bbaa94; }
 .unavailable-icon { width: 58px; height: 58px; display: grid; place-items: center; color: #a39078; background: #e6dccd; border: 1px solid #cfc0ad; border-radius: 50%; font-size: 25px; }
@@ -216,5 +226,7 @@ footer strong { color: var(--red); }
   .unavailable-status { white-space: normal; }
   .warning { margin: 35px 20px 55px; }
   .code-block { align-items: stretch; flex-direction: column; }
+  .launcher-action { align-items: stretch; flex-direction: column; }
+  .launcher-action code { padding: 5px; white-space: normal; overflow-wrap: anywhere; }
   footer { flex-direction: column; padding-inline: 20px; }
 }
