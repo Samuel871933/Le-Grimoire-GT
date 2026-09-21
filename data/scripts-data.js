@@ -1,94 +1,261 @@
 // Copie de secours pour permettre l’ouverture directe de index.html en file://.
 // Le fichier data/scripts.json reste la source principale du site en HTTP.
+// Généré depuis data/scripts.json — ne pas éditer à la main.
 window.GT_LIBRARY = {
-  categories: [
-    { id: 'support', label: 'Soutien', color: 'green', icon: '♜' },
-    { id: 'timing', label: 'Timing', color: 'red', icon: '⌖' },
-    { id: 'utility', label: 'Utilitaire', color: 'gold', icon: '◷' },
-    { id: 'farming', label: 'Pillage', color: 'green', icon: '⚔' },
-    { id: 'resources', label: 'Ressources', color: 'gold', icon: '◆' }
+  "categories": [
+    {
+      "id": "support",
+      "label": "Soutien",
+      "color": "green",
+      "icon": "♜"
+    },
+    {
+      "id": "timing",
+      "label": "Timing",
+      "color": "red",
+      "icon": "⌖"
+    },
+    {
+      "id": "utility",
+      "label": "Utilitaire",
+      "color": "gold",
+      "icon": "◷"
+    },
+    {
+      "id": "farming",
+      "label": "Pillage",
+      "color": "green",
+      "icon": "⚔"
+    },
+    {
+      "id": "resources",
+      "label": "Ressources",
+      "color": "gold",
+      "icon": "◆"
+    }
   ],
-  scripts: [
+  "scripts": [
     {
-      id: 'support-sender',
-      title: 'Support sender',
-      category: 'support',
-      description: 'Calcule les défenses disponibles de tes villages et prépare un envoi de soutien groupé sur une période donnée.',
-      features: ['Total des troupes disponibles', 'Répartition des unités à envoyer', 'Fenêtre de départ et d’arrivée'],
-      tutorial: 'Depuis la place de rassemblement ou l’aperçu des troupes, ouvre le favori. Commence par Calculate pour charger les défenses disponibles, ajuste la ligne send, choisis les dates puis utilise Fill inputs.',
-      code: "javascript:var heavyCav=6;$.getScript('https://dl.dropboxusercontent.com/s/idwa7mmpn6nx13l/supportSender.js?dl=0');void 0;",
-      source: 'Capture fournie',
-      author: 'Cosacche',
-      keywords: ['soutien', 'masse', 'défense', 'troupes', 'renfort']
+      "id": "support-sender",
+      "title": "Support sender",
+      "category": "support",
+      "description": "Calcule les défenses disponibles de tes villages et prépare un envoi de soutien groupé sur une période donnée.",
+      "features": [
+        "Total des troupes disponibles",
+        "Répartition des unités à envoyer",
+        "Fenêtre de départ et d’arrivée"
+      ],
+      "tutorial": "Depuis la place de rassemblement ou l’aperçu des troupes, ouvre le favori. Commence par Calculate pour charger les défenses disponibles, ajuste la ligne send, choisis les dates puis utilise Fill inputs.",
+      "code": "javascript:var heavyCav=6;$.getScript('https://dl.dropboxusercontent.com/s/idwa7mmpn6nx13l/supportSender.js?dl=0');void 0;",
+      "source": "Capture fournie",
+      "author": "Cosacche",
+      "keywords": [
+        "soutien",
+        "masse",
+        "défense",
+        "troupes",
+        "renfort"
+      ]
     },
     {
-      id: 'single-village-snipe',
-      title: 'Single Village Snipe',
-      category: 'timing',
-      description: 'Un outil dédié au snipe depuis un village unique, pensé pour préparer une action minutée avec précision.',
-      features: ['Utilisation depuis un seul village', 'Aide au calcul du timing', 'Lancement rapide par favori'],
-      tutorial: 'Crée le favori avec le code indiqué, ouvre le village depuis lequel tu veux agir et lance-le. Vérifie soigneusement l’heure calculée avant toute confirmation.',
-      code: "javascript:$.getScript('https://twscripts.dev/scripts/singleVillageSnipe.js');",
-      source: 'twscripts.dev',
-      author: null,
-      keywords: ['snipe', 'précision', 'attaque', 'village', 'heure']
+      "id": "single-village-snipe",
+      "title": "Single Village Snipe",
+      "category": "timing",
+      "description": "Un outil dédié au snipe depuis un village unique, pensé pour préparer une action minutée avec précision.",
+      "features": [
+        "Utilisation depuis un seul village",
+        "Aide au calcul du timing",
+        "Lancement rapide par favori"
+      ],
+      "tutorial": "Crée le favori avec le code indiqué, ouvre le village depuis lequel tu veux agir et lance-le. Vérifie soigneusement l’heure calculée avant toute confirmation.",
+      "code": "javascript:$.getScript('https://twscripts.dev/scripts/singleVillageSnipe.js');",
+      "source": "twscripts.dev",
+      "author": null,
+      "keywords": [
+        "snipe",
+        "précision",
+        "attaque",
+        "village",
+        "heure"
+      ]
     },
     {
-      id: 'timing-bar',
-      title: 'Barre de timing',
-      category: 'utility',
-      description: 'Ajoute une barre rapide d’import/export pour faciliter la préparation et la lecture des timings.',
-      features: ['Import et export rapides', 'Interface ajoutée à la page de jeu', 'Complément pour les actions minutées'],
-      tutorial: 'Ouvre le favori sur l’écran de jeu concerné. Une barre d’import/export rapide est ajoutée dans la page pour accompagner la préparation des timings.',
-      code: "javascript:$.getScript('https://gistcdn.githack.com/filipemiguel97/2887acafce48632b649cae4f4b174419/raw/importExportQuickBar.js');",
-      source: 'gistcdn.githack.com',
-      author: 'filipemiguel97',
-      keywords: ['barre', 'timing', 'import', 'export', 'quick bar', 'snipe']
+      "id": "timing-bar",
+      "title": "Barre de timing",
+      "category": "utility",
+      "description": "Ajoute une barre rapide d’import/export pour faciliter la préparation et la lecture des timings.",
+      "features": [
+        "Import et export rapides",
+        "Interface ajoutée à la page de jeu",
+        "Complément pour les actions minutées"
+      ],
+      "tutorial": "Ouvre le favori sur l’écran de jeu concerné. Une barre d’import/export rapide est ajoutée dans la page pour accompagner la préparation des timings.",
+      "code": "javascript:$.getScript('https://gistcdn.githack.com/filipemiguel97/2887acafce48632b649cae4f4b174419/raw/importExportQuickBar.js');",
+      "source": "gistcdn.githack.com",
+      "author": "filipemiguel97",
+      "keywords": [
+        "barre",
+        "timing",
+        "import",
+        "export",
+        "quick bar",
+        "snipe"
+      ]
     },
     {
-      id: 'farmgod', title: 'FarmGod', category: 'farming',
-      description: 'Un outil de pillage destiné à faciliter les actions de farming depuis Guerre Tribale.',
-      features: ['Aide au pillage', 'Lancement depuis un favori', 'Outil orienté farming'],
-      tutorial: 'Ajoute le code comme URL d’un favori, ouvre l’écran de pillage adapté dans le jeu puis sélectionne ce favori. Vérifie toujours les villages et les actions proposés avant validation.',
-      code: "javascript:$.getScript('https://higamy.github.io/TW/Scripts/Approved/FarmGodCopy.js');",
-      source: 'higamy.github.io', author: 'Higamy',
-      keywords: ['farmgod', 'pillage', 'farm', 'butin', 'attaque']
+      "id": "farmgod",
+      "title": "FarmGod",
+      "category": "farming",
+      "description": "Un outil de pillage destiné à faciliter les actions de farming depuis Guerre Tribale.",
+      "features": [
+        "Aide au pillage",
+        "Lancement depuis un favori",
+        "Outil orienté farming"
+      ],
+      "tutorial": "Ajoute le code comme URL d’un favori, ouvre l’écran de pillage adapté dans le jeu puis sélectionne ce favori. Vérifie toujours les villages et les actions proposés avant validation.",
+      "code": "javascript:$.getScript('https://higamy.github.io/TW/Scripts/Approved/FarmGodCopy.js');",
+      "source": "higamy.github.io",
+      "author": "Higamy",
+      "keywords": [
+        "farmgod",
+        "pillage",
+        "farm",
+        "butin",
+        "attaque"
+      ]
     },
     {
-      id: 'horloge', title: 'Horloge', category: 'utility',
-      description: 'Ajoute un outil d’horloge pour accompagner la préparation des actions minutées.',
-      features: ['Affichage temporel', 'Aide aux actions minutées', 'Lancement depuis un favori'],
-      tutorial: 'Enregistre le bookmarklet dans tes favoris, ouvre l’écran de jeu sur lequel tu souhaites suivre le temps puis sélectionne le favori. Contrôle l’heure du serveur avant de préparer une action.',
-      code: "javascript:$.getScript('https://shinko-to-kuma.com/scripts/timer.js');",
-      source: 'shinko-to-kuma.com', author: null,
-      keywords: ['horloge', 'heure', 'timer', 'temps', 'serveur']
+      "id": "horloge",
+      "title": "Horloge",
+      "category": "utility",
+      "description": "Ajoute un outil d’horloge pour accompagner la préparation des actions minutées.",
+      "features": [
+        "Affichage temporel",
+        "Aide aux actions minutées",
+        "Lancement depuis un favori"
+      ],
+      "tutorial": "Enregistre le bookmarklet dans tes favoris, ouvre l’écran de jeu sur lequel tu souhaites suivre le temps puis sélectionne le favori. Contrôle l’heure du serveur avant de préparer une action.",
+      "code": "javascript:$.getScript('https://shinko-to-kuma.com/scripts/timer.js');",
+      "source": "shinko-to-kuma.com",
+      "author": null,
+      "keywords": [
+        "horloge",
+        "heure",
+        "timer",
+        "temps",
+        "serveur"
+      ]
     },
     {
-      id: 'resource-balancer', title: 'Équilibrage des ressources', category: 'resources',
-      description: 'Un utilitaire conçu pour aider à équilibrer les ressources entre les villages.',
-      features: ['Répartition des ressources', 'Gestion multi-villages', 'Aide à l’équilibrage'],
-      tutorial: 'Ajoute le code dans un favori puis ouvre l’aperçu ou le marché concerné avant de le sélectionner. Vérifie les villages, les quantités et la capacité des marchands avant toute confirmation.',
-      code: "javascript:$.getScript('https://dl.dropboxusercontent.com/s/bytvle86lj6230c/resBalancer.js?dl=0');void(0);",
-      source: 'dl.dropboxusercontent.com', author: null,
-      keywords: ['ressources', 'équilibrage', 'marché', 'marchands', 'villages']
+      "id": "resource-balancer",
+      "title": "Équilibrage des ressources",
+      "category": "resources",
+      "description": "Un utilitaire conçu pour aider à équilibrer les ressources entre les villages.",
+      "features": [
+        "Répartition des ressources",
+        "Gestion multi-villages",
+        "Aide à l’équilibrage"
+      ],
+      "tutorial": "Ajoute le code dans un favori puis ouvre l’aperçu ou le marché concerné avant de le sélectionner. Vérifie les villages, les quantités et la capacité des marchands avant toute confirmation.",
+      "code": "javascript:$.getScript('https://dl.dropboxusercontent.com/s/bytvle86lj6230c/resBalancer.js?dl=0');void(0);",
+      "source": "dl.dropboxusercontent.com",
+      "author": null,
+      "keywords": [
+        "ressources",
+        "équilibrage",
+        "marché",
+        "marchands",
+        "villages"
+      ]
     },
     {
-      id: 'split-defense', title: 'Split défense', category: 'support',
-      description: 'Une configuration du Support sender prévue pour répartir et envoyer des troupes défensives.',
-      features: ['Répartition de la défense', 'Cavalerie lourde configurée à 4', 'Préparation de soutiens'],
-      tutorial: 'Crée un favori avec le code fourni, ouvre l’écran de soutien adapté puis lance-le. Calcule d’abord les troupes disponibles et vérifie la répartition avant de remplir ou confirmer les envois.',
-      code: "javascript:var heavyCav=4;$.getScript('https://dl.dropboxusercontent.com/s/idwa7mmpn6nxl3l/supportSender.js?dl=0');void 0;",
-      source: 'dl.dropboxusercontent.com', author: null,
-      keywords: ['split', 'défense', 'soutien', 'troupes', 'cavalerie lourde']
+      "id": "split-defense",
+      "title": "Split défense",
+      "category": "support",
+      "description": "Une configuration du Support sender prévue pour répartir et envoyer des troupes défensives.",
+      "features": [
+        "Répartition de la défense",
+        "Cavalerie lourde configurée à 4",
+        "Préparation de soutiens"
+      ],
+      "tutorial": "Crée un favori avec le code fourni, ouvre l’écran de soutien adapté puis lance-le. Calcule d’abord les troupes disponibles et vérifie la répartition avant de remplir ou confirmer les envois.",
+      "code": "javascript:var heavyCav=4;$.getScript('https://dl.dropboxusercontent.com/s/idwa7mmpn6nxl3l/supportSender.js?dl=0');void 0;",
+      "source": "dl.dropboxusercontent.com",
+      "author": null,
+      "keywords": [
+        "split",
+        "défense",
+        "soutien",
+        "troupes",
+        "cavalerie lourde"
+      ]
     },
     {
-      id: 'bottenkraker', title: 'Bottenkraker', category: 'timing',
-      description: 'Un outil de snipe configurable avec des couleurs de timing, d’attente et d’absence de date.',
-      features: ['Aide au snipe', 'Couleurs configurables', 'Barre temporelle optionnelle'],
-      tutorial: 'Conserve ou adapte les variables de couleur au début du bookmarklet, puis enregistre-le comme favori. Lance-le depuis l’écran de jeu concerné et vérifie chaque horaire avant toute action.',
-      code: "javascript:var timeColor='cyan';var timeColor='green';var waitingColor='#ff9933';var noDateColor='green';var timeBarWidth=false;$.getScript('https://toxicdonut.dev:8080/js/bottenkraker.js');",
-      source: 'toxicdonut.dev:8080', author: null,
-      keywords: ['bottenkraker', 'snipe', 'timing', 'couleur', 'barre']
+      "id": "bottenkraker",
+      "title": "Bottenkraker",
+      "category": "timing",
+      "description": "Un outil de snipe configurable avec des couleurs de timing, d’attente et d’absence de date.",
+      "features": [
+        "Aide au snipe",
+        "Couleurs configurables",
+        "Barre temporelle optionnelle"
+      ],
+      "tutorial": "Conserve ou adapte les variables de couleur au début du bookmarklet, puis enregistre-le comme favori. Lance-le depuis l’écran de jeu concerné et vérifie chaque horaire avant toute action.",
+      "code": "javascript:var timeColor='cyan';var timeColor='green';var waitingColor='#ff9933';var noDateColor='green';var timeBarWidth=false;$.getScript('https://toxicdonut.dev:8080/js/bottenkraker.js');",
+      "source": "toxicdonut.dev:8080",
+      "author": null,
+      "keywords": [
+        "bottenkraker",
+        "snipe",
+        "timing",
+        "couleur",
+        "barre"
+      ]
+    },
+    {
+      "id": "support-counter",
+      "title": "Support counter",
+      "category": "support",
+      "description": "Compte le soutien envoyé depuis tes villages et le récapitule par tribu et par joueur depuis l’aperçu des troupes en déplacement.",
+      "features": [
+        "Récapitulatif du soutien par tribu et par joueur",
+        "Total des unités et de la population soutenue",
+        "Comptage de la cavalerie lourde en 4 ou 6 population"
+      ],
+      "tutorial": "Ouvre le favori depuis n’importe quel écran : le script t’amène automatiquement vers l’aperçu des troupes (soutien à l’extérieur, tous villages, page unique). Le tableau récapitulatif s’insère en haut de la page. Une case à cocher permet de compter la cavalerie lourde comme 4 population ; décoche-la et recharge pour la compter comme 6.",
+      "code": "javascript:$.getScript('https://dl.dropbox.com/s/lhsaa538edi5xaz/support-counter.js');",
+      "source": "dl.dropbox.com",
+      "author": "Aviendha",
+      "keywords": [
+        "soutien",
+        "comptage",
+        "défense",
+        "tribu",
+        "population",
+        "récapitulatif"
+      ]
+    },
+    {
+      "id": "auto-note-reports",
+      "title": "Notes automatiques des rapports",
+      "category": "utility",
+      "description": "Ajoute automatiquement des notes aux villages à partir des rapports de reconnaissance, pour garder une trace des informations collectées.",
+      "features": [
+        "Annotation des villages depuis les rapports",
+        "Conservation des informations de reconnaissance",
+        "Lancement depuis un favori"
+      ],
+      "tutorial": "Ouvre le favori depuis l’écran des rapports. Le script reprend les informations des rapports pour renseigner les notes des villages concernés. Vérifie le contenu ajouté avant de t’y fier.",
+      "code": "javascript:$.getScript('https://oltok.com/tw/auto-note-reports.js');",
+      "source": "oltok.com",
+      "author": null,
+      "keywords": [
+        "notes",
+        "rapports",
+        "reconnaissance",
+        "villages",
+        "annotation"
+      ]
     }
   ]
 };

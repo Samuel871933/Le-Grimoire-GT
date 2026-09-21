@@ -44,9 +44,14 @@ Ce projet ne doit pas être utilisé pour contourner les règles du jeu, automat
 
 ## Le lanceur GT
 
-Le fichier `gt-launcher.js` fournit un menu unique permettant de sélectionner un script depuis Guerre Tribale. Il ne charge aucun script automatiquement à l’ouverture : une sélection explicite de l’utilisateur est nécessaire.
+Le fichier `gt-launcher.js` fournit un menu unique permettant de sélectionner un script depuis Guerre Tribale. Il ne charge et n’installe aucun script automatiquement à l’ouverture : une action explicite de l’utilisateur est nécessaire.
 
-Le lanceur récupère sa liste depuis les données publiques du Grimoire, puis charge la source HTTPS du script sélectionné. Le code tiers s’exécute alors dans la page de jeu et dispose potentiellement des mêmes accès que tout JavaScript exécuté dans cette page.
+Le lanceur récupère sa liste depuis les données publiques du Grimoire, puis propose deux actions par script :
+
+- **Lancer** : charge la source HTTPS du script pour la session en cours uniquement. Rien n’est conservé après la fermeture de la page.
+- **Installer** : ajoute le script comme entrée permanente dans la barre de raccourcis du compte. Le lanceur ouvre la page « Réglages → Barre de raccourcis » dans une iframe cachée, remplit le formulaire officiel d’ajout et le soumet, afin que le jeton CSRF et la validation restent ceux du jeu. Les entrées créées sont préfixées par `Grimoire · ` et une entrée déjà présente n’est pas dupliquée.
+
+Dans les deux cas, le code tiers s’exécute dans la page de jeu et dispose potentiellement des mêmes accès que tout JavaScript exécuté dans cette page. Un script installé s’exécute à chaque fois que l’entrée correspondante est utilisée, sans repasser par le Grimoire.
 
 Conséquences importantes :
 
