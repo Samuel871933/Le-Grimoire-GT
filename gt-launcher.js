@@ -200,20 +200,31 @@
     panel.setAttribute('role', 'dialog');
     panel.setAttribute('aria-modal', 'true');
     panel.setAttribute('aria-label', 'Lanceur Grimoire GT');
-    panel.style.cssText = 'width:min(620px,100%);max-height:85vh;overflow:auto;background:#f3e7c5;border:3px solid #6d3c20;box-shadow:0 18px 60px #0008;color:#3b291c;';
+    panel.style.cssText = 'width:min(760px,100%);max-height:85vh;overflow:auto;background:#f3e7c5;border:3px solid #6d3c20;box-shadow:0 18px 60px #0008;color:#3b291c;';
 
     const header = document.createElement('header');
     header.style.cssText = 'position:sticky;top:0;display:flex;align-items:center;justify-content:space-between;gap:15px;padding:15px 18px;background:#35241a;color:#f5dfae;border-bottom:3px solid #9b642c;';
+    // Reprise de l'ecusson .brand-mark du site, en CSS inline : la page de jeu
+    // n'autorise pas forcement le chargement d'une image externe.
+    const brand = document.createElement('span');
+    brand.textContent = 'GT';
+    brand.setAttribute('aria-hidden', 'true');
+    brand.style.cssText = 'flex:none;width:30px;height:34px;display:grid;place-items:center;color:#f5dfae;font:800 12px Georgia,serif;background:linear-gradient(145deg,#a24436,#6c241d);clip-path:polygon(50% 0,92% 16%,84% 75%,50% 100%,16% 75%,8% 16%);';
+
     const title = document.createElement('strong');
     title.textContent = 'Le Grimoire GT — Lanceur';
     title.style.cssText = 'font-size:17px;';
+
+    const brandRow = document.createElement('div');
+    brandRow.style.cssText = 'display:flex;align-items:center;gap:10px;min-width:0;';
+    brandRow.append(brand, title);
     const close = document.createElement('button');
     close.type = 'button';
     close.textContent = '×';
     close.setAttribute('aria-label', 'Fermer');
     close.style.cssText = 'width:34px;height:34px;color:#fff;background:#7e2d23;border:1px solid #b06b4e;cursor:pointer;font-size:22px;';
     close.addEventListener('click', closeLauncher);
-    header.append(title, close);
+    header.append(brandRow, close);
     panel.appendChild(header);
 
     const intro = document.createElement('p');
