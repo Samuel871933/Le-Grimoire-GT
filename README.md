@@ -49,7 +49,7 @@ Le fichier `gt-launcher.js` fournit un menu unique permettant de sélectionner u
 Le lanceur récupère sa liste depuis les données publiques du Grimoire, puis propose deux actions par script :
 
 - **Lancer** : charge la source HTTPS du script pour la session en cours uniquement. Rien n’est conservé après la fermeture de la page.
-- **Installer** : ajoute le script comme entrée permanente dans la barre de raccourcis du compte. Le lanceur ouvre la page « Réglages → Barre de raccourcis » dans une iframe cachée, remplit le formulaire officiel d’ajout et le soumet, afin que le jeton CSRF et la validation restent ceux du jeu. Les entrées créées sont préfixées par `Grimoire · ` et une entrée déjà présente n’est pas dupliquée.
+- **Copier + ouvrir** : copie le code du script dans le presse-papiers et ouvre la page « Réglages → Barre de raccourcis » dans un nouvel onglet. C’est l’utilisateur qui colle le code dans le champ « URL cible », nomme l’entrée et l’enregistre lui-même. Le lanceur ne remplit ni ne soumet le formulaire de réglages du compte à sa place : l’ajout d’une entrée permanente reste une action délibérée, effectuée dans l’interface officielle du jeu.
 
 Dans les deux cas, le code tiers s’exécute dans la page de jeu et dispose potentiellement des mêmes accès que tout JavaScript exécuté dans cette page. Un script installé s’exécute à chaque fois que l’entrée correspondante est utilisée, sans repasser par le Grimoire.
 

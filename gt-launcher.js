@@ -74,146 +74,51 @@
     return url.href;
   }
 
-  // Charge la page « Réglages → Barre de raccourcis » dans une iframe cachée,
-  // remplit le formulaire officiel d'ajout et le soumet. On passe par le
-  // formulaire du jeu pour que le jeton CSRF et la validation restent ceux de GT.
-  function openQuickbarFrame() {
-    return new Promise((resolve, reject) => {
-      const frame = document.createElement('iframe');
-      frame.style.cssText = 'position:fixed;left:-9999px;top:-9999px;width:1024px;height:768px;border:0;';
-      const timer = window.setTimeout(() => {
-        frame.remove();
-        reject(new Error('timeout'));
-      }, 20000);
-      frame.addEventListener('load', () => {
-        window.clearTimeout(timer);
-        try {
-          const doc = frame.contentDocument;
-          if (!doc) throw new Error('inaccessible');
-          resolve({ frame, doc });
-        } catch (error) {
-          frame.remove();
-          reject(error);
-        }
-      }, { once: true });
-      frame.addEventListener('error', () => {
-        window.clearTimeout(timer);
-        frame.remove();
-        reject(new Error('load'));
-      }, { once: true });
-      frame.src = quickbarUrl();
-      document.body.appendChild(frame);
-    });
-  }
-
-  // Le formulaire d'ajout poste vers mode=quickbar_edit. Le libelle est un
-  // <input name="name"> mais la cible est un <textarea name="href"> : il faut
-  // donc chercher dans les deux types de champs.
-  function findQuickbarForm(doc) {
-    const forms = Array.from(doc.querySelectorAll('form'));
-    for (const form of forms) {
-      const label = form.querySelector('input[name="name"]');
-      const link = form.querySelector('[name="href"]');
-      if (label && link) return { form, label, link };
+  async function copyToClipboard(text) {
+    try {
+      await navigator.clipboard.writeText(text);
+      return true;
+    } catch {
+      // Repli pour les contextes ou l'API presse-papiers est refusee.
+      const area = document.createElement('textarea');
+      area.value = text;
+      area.style.cssText = 'position:fixed;left:-9999px;top:0;';
+      document.body.appendChild(area);
+      area.select();
+      let ok = false;
+      try { ok = document.execCommand('copy'); } catch { ok = false; }
+      area.remove();
+      return ok;
     }
-    return null;
   }
 
-  // Les entrees deja enregistrees vivent dans les autres formulaires de la page
-  // (un par entree), chacun avec son propre champ name pre-rempli.
-  function existingQuickbarLabels(doc) {
-    return new Set(
-      Array.from(doc.querySelectorAll('input[name="name"]'))
-        .map((input) => String(input.value || '').trim().toLowerCase())
-        .filter(Boolean)
-    );
-  }
-
-  // Un rechargement de l'iframe apres soumission permet de confirmer que
-  // l'entree existe reellement, plutot que de se fier au seul evenement load.
-  function confirmInstalled(frame, label) {
-    return new Promise((resolve) => {
-      frame.addEventListener('load', () => {
-        try {
-          resolve(existingQuickbarLabels(frame.contentDocument).has(label.toLowerCase()));
-        } catch {
-          resolve(false);
-        }
-      }, { once: true });
-      frame.contentWindow.location.href = quickbarUrl();
-      window.setTimeout(() => resolve(false), 15000);
-    });
-  }
-
+  // L'ajout d'une entree se fait dans le formulaire officiel du jeu : le
+  // lanceur prepare le code et ouvre la page, l'utilisateur valide lui-meme.
+  // On ne remplit ni ne soumet le formulaire de reglages a sa place.
   async function installToQuickbar(script, statusLine) {
     const bookmarklet = bookmarkletFrom(script);
     if (!bookmarklet) {
-      notify(`Le code de ${script.title} n’est pas un raccourci installable.`, 'error');
+      notify(`Le code de ${script.title} n'est pas un raccourci installable.`, 'error');
       return;
     }
 
+    const copied = await copyToClipboard(bookmarklet);
     const label = `Grimoire · ${script.title}`;
-    statusLine.textContent = `Installation de ${script.title} dans ta barre de raccourcis…`;
 
-    let context;
-    try {
-      context = await openQuickbarFrame();
-    } catch {
-      statusLine.textContent = '';
-      notify('Impossible d’ouvrir la page « Barre de raccourcis » de ton compte.', 'error');
-      return;
+    statusLine.textContent = copied
+      ? `Code de ${script.title} copie. Colle-le dans « URL cible », nomme l'entree « ${label} », puis Sauvegarder.`
+      : `Copie automatique refusee : copie le code affiche ci-dessous pour ${script.title}.`;
+
+    if (!copied) {
+      const area = document.createElement('textarea');
+      area.readOnly = true;
+      area.value = bookmarklet;
+      area.style.cssText = 'width:calc(100% - 36px);margin:8px 18px;height:70px;font-size:10px;';
+      statusLine.after(area);
+      area.select();
     }
 
-    const { frame, doc } = context;
-    try {
-      if (existingQuickbarLabels(doc).has(label.toLowerCase())) {
-        statusLine.textContent = '';
-        notify(`${script.title} est déjà installé dans ta barre de raccourcis.`, 'info');
-        return;
-      }
-
-      const target = findQuickbarForm(doc);
-      if (!target) {
-        statusLine.textContent = '';
-        notify('Le formulaire d’ajout est introuvable : ajoute l’entrée à la main depuis Réglages → Barre de raccourcis.', 'error');
-        return;
-      }
-
-      const innerWindow = frame.contentWindow;
-      const setValue = (field, value) => {
-        field.focus();
-        field.value = value;
-        // Les handlers de Settings.Modes.Quickbar sont poses via le jQuery de
-        // l'iframe : on notifie par ce jQuery quand il est disponible.
-        if (innerWindow.jQuery) innerWindow.jQuery(field).trigger('input').trigger('change');
-        else {
-          field.dispatchEvent(new innerWindow.Event('input', { bubbles: true }));
-          field.dispatchEvent(new innerWindow.Event('change', { bubbles: true }));
-        }
-      };
-      setValue(target.label, label);
-      setValue(target.link, bookmarklet);
-
-      const submitted = new Promise((resolve) => {
-        frame.addEventListener('load', () => resolve(true), { once: true });
-        window.setTimeout(() => resolve(false), 15000);
-      });
-
-      // HTMLFormElement.submit() ne declenche aucun handler onsubmit : on prefere
-      // requestSubmit() qui respecte la validation et les listeners du jeu.
-      const submitButton = target.form.querySelector('input[type="submit"], button[type="submit"]');
-      if (typeof target.form.requestSubmit === 'function') target.form.requestSubmit(submitButton || undefined);
-      else if (submitButton) submitButton.click();
-      else target.form.submit();
-
-      const posted = await submitted;
-      const ok = posted ? await confirmInstalled(frame, label) : false;
-      statusLine.textContent = '';
-      if (ok) notify(`${script.title} a été ajouté à ta barre de raccourcis.`, 'success');
-      else notify(`L’enregistrement de ${script.title} n’a pas été confirmé. Vérifie ta barre de raccourcis.`, 'error');
-    } finally {
-      frame.remove();
-    }
+    window.open(quickbarUrl(), '_blank', 'noopener');
   }
 
   function runScript(script) {
@@ -269,7 +174,7 @@
     panel.appendChild(header);
 
     const intro = document.createElement('p');
-    intro.textContent = '« Lancer » exécute le script pour cette session seulement. « Installer » ajoute une entrée permanente dans la barre de raccourcis de ton compte. Vérifie qu’il est autorisé sur ton marché et contrôle toujours les données avant validation.';
+    intro.textContent = '« Lancer » exécute le script pour cette session seulement. « Copier + ouvrir » copie le code et ouvre la page « Barre de raccourcis » : c’est toi qui colles et enregistres l’entrée. Vérifie que le script est autorisé sur ton marché avant de l’utiliser.';
     intro.style.cssText = 'margin:0;padding:16px 18px 8px;color:#6c5845;font-size:12px;line-height:1.5;';
     panel.appendChild(intro);
 
@@ -311,7 +216,7 @@
 
         const installButton = document.createElement('button');
         installButton.type = 'button';
-        installButton.textContent = 'Installer';
+        installButton.textContent = 'Copier + ouvrir';
         installButton.style.cssText = 'flex:1;padding:7px;color:#f5dfae;background:#5c7e3a;border:1px solid #3f5a26;cursor:pointer;font-size:11px;';
         installButton.addEventListener('click', async () => {
           installButton.disabled = true;
@@ -320,7 +225,7 @@
             await installToQuickbar(script, statusLine);
           } finally {
             installButton.disabled = false;
-            installButton.textContent = 'Installer';
+            installButton.textContent = 'Copier + ouvrir';
           }
         });
 
