@@ -49,7 +49,7 @@ Le fichier `gt-launcher.js` fournit un menu unique permettant de sélectionner u
 Le lanceur récupère sa liste depuis les données publiques du Grimoire, puis propose deux actions par script :
 
 - **Lancer** : charge la source HTTPS du script pour la session en cours uniquement. Rien n’est conservé après la fermeture de la page.
-- **Copier + ouvrir** : copie le code du script dans le presse-papiers et ouvre la page « Réglages → Barre de raccourcis » dans un nouvel onglet. C’est l’utilisateur qui colle le code dans le champ « URL cible », nomme l’entrée (le lanceur suggère un libellé `GT · …`, tronqué à 32 caractères comme l’exige le jeu) et l’enregistre lui-même. Le lanceur ne remplit ni ne soumet le formulaire de réglages du compte à sa place : l’ajout d’une entrée permanente reste une action délibérée, effectuée dans l’interface officielle du jeu.
+- **Remplir** : depuis « Réglages → Barre de raccourcis → Ajouter une nouvelle entrée », le lanceur complète les champs « Nom de l'entrée » et « URL cible » du formulaire officiel du jeu, puis les met en évidence. Il ne soumet rien : c'est l'utilisateur qui relit les valeurs et clique lui-même sur « Sauvegarder ». Depuis toute autre page, le bouton copie le code et ouvre le formulaire. Le libellé suggéré (`GT · …`) est tronqué à 32 caractères, limite imposée par le champ du jeu.
 
 Dans les deux cas, le code tiers s’exécute dans la page de jeu et dispose potentiellement des mêmes accès que tout JavaScript exécuté dans cette page. Un script installé s’exécute à chaque fois que l’entrée correspondante est utilisée, sans repasser par le Grimoire.
 

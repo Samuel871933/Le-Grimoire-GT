@@ -94,9 +94,6 @@
     }
   }
 
-  // L'ajout d'une entree se fait dans le formulaire officiel du jeu : le
-  // lanceur prepare le code et ouvre la page, l'utilisateur valide lui-meme.
-  // On ne remplit ni ne soumet le formulaire de reglages a sa place.
   // Le champ « Nom de l'entree » est limite a 32 caracteres par le jeu : on
   // tronque nous-memes pour que le libelle reste lisible et previsible.
   const QUICKBAR_NAME_MAX = 32;
@@ -107,6 +104,40 @@
       : `${label.slice(0, QUICKBAR_NAME_MAX - 1).trimEnd()}…`;
   }
 
+  function quickbarForm(doc = document) {
+    const link = doc.querySelector('textarea[name="href"], input[name="href"]');
+    const name = doc.querySelector('input[name="name"]');
+    return link && name ? { name, link, form: link.form } : null;
+  }
+
+  // Remplit les champs via le jQuery de la page pour que les handlers de
+  // Settings.Modes.Quickbar voient les valeurs. La soumission reste manuelle :
+  // c'est l'utilisateur qui relit et clique sur « Sauvegarder ».
+  function fillQuickbarForm(target, label, bookmarklet) {
+    const setValue = (field, value) => {
+      field.value = value;
+      if (window.jQuery) window.jQuery(field).trigger('input').trigger('change');
+      else {
+        field.dispatchEvent(new Event('input', { bubbles: true }));
+        field.dispatchEvent(new Event('change', { bubbles: true }));
+      }
+    };
+    setValue(target.name, label);
+    setValue(target.link, bookmarklet);
+    target.link.style.outline = '2px solid #5c7e3a';
+    target.name.style.outline = '2px solid #5c7e3a';
+    target.form?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+
+  async function copyToClipboard(text) {
+    try {
+      await navigator.clipboard.writeText(text);
+      return true;
+    } catch {
+      return false;
+    }
+  }
+
   async function installToQuickbar(script, statusLine) {
     const bookmarklet = bookmarkletFrom(script);
     if (!bookmarklet) {
@@ -114,22 +145,22 @@
       return;
     }
 
-    const copied = await copyToClipboard(bookmarklet);
     const label = quickbarLabel(script);
+    const target = quickbarForm();
 
-    statusLine.textContent = copied
-      ? `Code copié. Dans l'onglet ouvert : « Nom de l'entrée » = ${label}, colle le code dans « URL cible », puis Sauvegarder.`
-      : `Copie automatique refusée : copie le code affiché ci-dessous pour ${script.title}.`;
-
-    if (!copied) {
-      const area = document.createElement('textarea');
-      area.readOnly = true;
-      area.value = bookmarklet;
-      area.style.cssText = 'width:calc(100% - 36px);margin:8px 18px;height:70px;font-size:10px;';
-      statusLine.after(area);
-      area.select();
+    // Deja sur « Ajouter un nouveau lien » : on remplit, l'utilisateur valide.
+    if (target) {
+      fillQuickbarForm(target, label, bookmarklet);
+      closeLauncher();
+      notify(`Champs remplis pour ${script.title}. Relis-les, puis clique sur « Sauvegarder ».`, 'success');
+      return;
     }
 
+    // Ailleurs dans le jeu : on prepare le code et on ouvre le formulaire.
+    const copied = await copyToClipboard(bookmarklet);
+    statusLine.textContent = copied
+      ? `Code copié. Dans l'onglet ouvert, rouvre le Grimoire et clique « Remplir » : les champs se remplissent tout seuls.`
+      : `Copie refusée par le navigateur : ouvre le formulaire puis relance le Grimoire depuis cette page.`;
     window.open(quickbarUrl(), '_blank', 'noopener');
   }
 
@@ -186,7 +217,7 @@
     panel.appendChild(header);
 
     const intro = document.createElement('p');
-    intro.textContent = '« Lancer » exécute le script pour cette session seulement. « Copier + ouvrir » copie le code et ouvre la page « Barre de raccourcis » : c’est toi qui colles et enregistres l’entrée. Vérifie que le script est autorisé sur ton marché avant de l’utiliser.';
+    intro.textContent = '« Lancer » exécute le script pour cette session seulement. Depuis « Réglages → Barre de raccourcis → Ajouter une nouvelle entrée », le bouton « Remplir » complète les champs du formulaire officiel : relis-les, puis clique toi-même sur « Sauvegarder ». Vérifie que le script est autorisé sur ton marché.';
     intro.style.cssText = 'margin:0;padding:16px 18px 8px;color:#6c5845;font-size:12px;line-height:1.5;';
     panel.appendChild(intro);
 
@@ -228,7 +259,7 @@
 
         const installButton = document.createElement('button');
         installButton.type = 'button';
-        installButton.textContent = 'Copier + ouvrir';
+        installButton.textContent = quickbarForm() ? 'Remplir' : 'Ouvrir le formulaire';
         installButton.style.cssText = 'flex:1;padding:7px;color:#f5dfae;background:#5c7e3a;border:1px solid #3f5a26;cursor:pointer;font-size:11px;';
         installButton.addEventListener('click', async () => {
           installButton.disabled = true;
@@ -237,7 +268,7 @@
             await installToQuickbar(script, statusLine);
           } finally {
             installButton.disabled = false;
-            installButton.textContent = 'Copier + ouvrir';
+            installButton.textContent = quickbarForm() ? 'Remplir' : 'Ouvrir le formulaire';
           }
         });
 
