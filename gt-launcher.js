@@ -65,9 +65,7 @@
   }
 
   function quickbarUrl() {
-    const url = new URL(window.location.href);
-    url.search = '';
-    url.hash = '';
+    const url = new URL('/game.php', window.location.origin);
     const params = new URLSearchParams(window.location.search);
     const village = params.get('village');
     if (village) url.searchParams.set('village', village);
@@ -108,24 +106,43 @@
     });
   }
 
+  // Le formulaire d'ajout poste vers mode=quickbar_edit. Le libelle est un
+  // <input name="name"> mais la cible est un <textarea name="href"> : il faut
+  // donc chercher dans les deux types de champs.
   function findQuickbarForm(doc) {
     const forms = Array.from(doc.querySelectorAll('form'));
     for (const form of forms) {
-      const inputs = Array.from(form.querySelectorAll('input[type="text"], input:not([type])'));
-      // Le formulaire d'ajout porte un champ de libellé et un champ d'URL.
-      const label = inputs.find((input) => /name|titel|label|nom/i.test(input.name || input.id || ''));
-      const link = inputs.find((input) => /url|link|href|target|ziel/i.test(input.name || input.id || ''));
+      const label = form.querySelector('input[name="name"]');
+      const link = form.querySelector('[name="href"]');
       if (label && link) return { form, label, link };
     }
     return null;
   }
 
+  // Les entrees deja enregistrees vivent dans les autres formulaires de la page
+  // (un par entree), chacun avec son propre champ name pre-rempli.
   function existingQuickbarLabels(doc) {
     return new Set(
-      Array.from(doc.querySelectorAll('input[type="text"], input:not([type])'))
+      Array.from(doc.querySelectorAll('input[name="name"]'))
         .map((input) => String(input.value || '').trim().toLowerCase())
         .filter(Boolean)
     );
+  }
+
+  // Un rechargement de l'iframe apres soumission permet de confirmer que
+  // l'entree existe reellement, plutot que de se fier au seul evenement load.
+  function confirmInstalled(frame, label) {
+    return new Promise((resolve) => {
+      frame.addEventListener('load', () => {
+        try {
+          resolve(existingQuickbarLabels(frame.contentDocument).has(label.toLowerCase()));
+        } catch {
+          resolve(false);
+        }
+      }, { once: true });
+      frame.contentWindow.location.href = quickbarUrl();
+      window.setTimeout(() => resolve(false), 15000);
+    });
   }
 
   async function installToQuickbar(script, statusLine) {
@@ -162,11 +179,17 @@
         return;
       }
 
-      const setValue = (input, value) => {
-        input.focus();
-        input.value = value;
-        input.dispatchEvent(new frame.contentWindow.Event('input', { bubbles: true }));
-        input.dispatchEvent(new frame.contentWindow.Event('change', { bubbles: true }));
+      const innerWindow = frame.contentWindow;
+      const setValue = (field, value) => {
+        field.focus();
+        field.value = value;
+        // Les handlers de Settings.Modes.Quickbar sont poses via le jQuery de
+        // l'iframe : on notifie par ce jQuery quand il est disponible.
+        if (innerWindow.jQuery) innerWindow.jQuery(field).trigger('input').trigger('change');
+        else {
+          field.dispatchEvent(new innerWindow.Event('input', { bubbles: true }));
+          field.dispatchEvent(new innerWindow.Event('change', { bubbles: true }));
+        }
       };
       setValue(target.label, label);
       setValue(target.link, bookmarklet);
@@ -176,11 +199,15 @@
         window.setTimeout(() => resolve(false), 15000);
       });
 
-      const submitButton = target.form.querySelector('input[type="submit"], button[type="submit"], button:not([type])');
-      if (submitButton) submitButton.click();
+      // HTMLFormElement.submit() ne declenche aucun handler onsubmit : on prefere
+      // requestSubmit() qui respecte la validation et les listeners du jeu.
+      const submitButton = target.form.querySelector('input[type="submit"], button[type="submit"]');
+      if (typeof target.form.requestSubmit === 'function') target.form.requestSubmit(submitButton || undefined);
+      else if (submitButton) submitButton.click();
       else target.form.submit();
 
-      const ok = await submitted;
+      const posted = await submitted;
+      const ok = posted ? await confirmInstalled(frame, label) : false;
       statusLine.textContent = '';
       if (ok) notify(`${script.title} a été ajouté à ta barre de raccourcis.`, 'success');
       else notify(`L’enregistrement de ${script.title} n’a pas été confirmé. Vérifie ta barre de raccourcis.`, 'error');
